@@ -3580,7 +3580,7 @@ h1 , h2 {
 {
   color: #ffffff !important;
 }
-.template-product-product-nitro .pl-swatches__swatch-wrapper--active ., .template-product-product-nitro-assorted .pl-swatches__swatch-wrapper--active{
+.template-product-product-nitro .pl-swatches__swatch-wrapper--active , .template-product-product-nitro-assorted .pl-swatches__swatch-wrapper--active{
   border: 3px solid #ffffff !important;
 }
 .template-product-product-nitro .pl-swatches__label , .template-product-product-nitro-assorted .pl-swatches__label{
@@ -3619,8 +3619,8 @@ dynamic-checkout .shopify-payment-button__button{text-transform: uppercase;font-
 dynamic-checkout .shopify-payment-button__button:hover, cart-wallet-buttons .shopify-payment-button__button:hover , .shopify-payment-button__button--unbranded:hover:not([disabled])
 {
   background-color: #339999;
-  border-color: #339999; */
-}
+  border-color: #339999; 
+}*/
 .jdgm-rev-widg .jdgm-btn--solid, .jdgm-rev-widg input[type=submit].jdgm-btn--solid 
 {
   background-color: #000000 !important;
@@ -4263,5 +4263,5 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5.h6,.card__heading{
 }
 
 header{
-      background: #de0000;
+      background: #008dde;
 }
