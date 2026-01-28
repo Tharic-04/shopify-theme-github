@@ -1,0 +1,44 @@
+.multicolumn .multicolumn-card{
+  width: 100%;
+}
+.multicolumn .accordion{
+  margin-top: 0;
+  border-top: 0;
+  border-bottom: 0;
+  transition: 0.3s all linear;
+}
+.multicolumn .accordion summary h3{
+  transition: 0.3s all linear;
+}
+
+.multicolumn summary img{
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+.multicolumn .accordion summary{
+  align-items: center;
+  padding: 0.5rem 0;
+}
+.multicolumn.multicolumn-with-collapsible-content .title-wrapper-with-link{
+  margin-bottom: 1.5rem;
+}
+.multicolumn.multicolumn-with-collapsible-content details summary h3{text-transform: uppercase;}
+@media (min-width: 750px){
+.multicolumn .accordion:hover summary h3{
+      transform: scale(1.1);
+       padding-left: 10px;
+}
+  
+.multicolumn .accordion:hover summary svg{
+  display: none;
+}
+}
+@media (max-width: 749px){
+.multicolumn .accordion summary{
+  padding: 0.2rem 0;
+}
+.multicolumn-with-collapsible-content .multicolumn-card .multicolumn-card__info{
+  padding-left: 10px;
+}
+}

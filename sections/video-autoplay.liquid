@@ -1,0 +1,134 @@
+<div 
+  class="page-width"
+  {% if section.settings.fullwidth %}
+    style="max-width: 100%!important;margin: 0;padding:0px"
+  {% endif %}
+>
+  <div class="video-section">
+    <h2>{{ section.settings.heading }}</h2>
+  </div>
+  {% if section.settings.self_hosted_video %}
+    <div
+      class="video-container"
+      {% if section.settings.fullwidth %}
+        style="width: 100%;"
+      {% endif %}
+    >
+      {{
+        section.settings.self_hosted_video
+        | video_tag: image_size: '1800x',
+          controls: section.settings.controller,
+          autoplay: section.settings.autoplay,
+          loop: true,
+          playsinline: true,
+          class: "desktop-video"
+      }}
+      {{
+        section.settings.mobile_self_hosted_video
+        | video_tag: image_size: '600x',
+          controls: section.settings.controller,
+          autoplay: section.settings.autoplay,
+          loop: true,
+          playsinline: true,
+          class: "mobile-video"
+      }}
+    </div>
+  {% endif %}
+</div>
+
+{% if section.settings.fullwidth %}
+  <style>
+    /* Your full-height styles go here */
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* Adjust this value as needed for the aspect ratio */
+      height: 0;
+      overflow: hidden;
+    }
+    .video-container iframe,
+    .video-container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    @media (min-width: 750px){
+    .video-container video.mobile-video{
+      display: none;
+    }
+    }
+    @media (max-width: 749px){
+    .video-container video.desktop-video{
+      display: none;
+    }
+    }
+  </style>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Video WebSensePro",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Video",
+      "label": "t:sections.video-autoplay.settings.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "t:sections.video-autoplay.settings.fullwidth.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:sections.video-autoplay.settings.autoplay.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "controller",
+      "label": "t:sections.video-autoplay.settings.controller.label",
+      "default": false
+    },
+    {
+      "type": "video",
+      "id": "self_hosted_video",
+      "label":"t:sections.video-autoplay.settings.self_hosted_video.label"
+    },
+    {
+      "type": "video",
+      "id": "mobile_self_hosted_video",
+      "label":"t:sections.video-autoplay.settings.mobile_self_hosted_video.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.video-autoplay.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,114 @@
+{% liquid
+  assign cart_total_before_discount = cart.original_total_price | divided_by: 100
+
+  assign discount_applied = "5_percent"
+  assign offer_message_price = "🎉 You got 5% off! Use code CLEARX at checkout."
+  assign progress_shipping_price = 100
+%}
+
+<div class="free-shipping-progress-container">
+  <div class="free-shipping-progress-bar price-bar">
+    <div class="free_shipping_progress">
+      <div class="free_shipping_value price-bar-update">
+        <span class="progress-message">{{ offer_message_price }}</span>
+      </div>
+    </div>
+
+    <div class="progress-bar-section progress_bar_active">
+      <div class="progress-bar" style="width: {{ progress_shipping_price }}%;"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+{% if cart_quantity >= 1 %}
+:root {
+  --duration: 800ms;
+}
+
+.bubble_line {
+  position: relative;
+}
+
+.sparkle_chingles {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.sparkle {
+  font-size: 1.5vmin;
+}
+
+.bubble_line_code,
+.bubble_line_code_new,
+.bubble_line_code_new1 {
+  position: absolute;
+  top: -16px;
+  height: 3rem;
+  width: .2rem;
+  border-radius: 4rem;
+  background-color: #37a900;
+  --Θ: calc(var(--color) * 1turn / var(--overall));
+  transform: translate(-50%, -50%) rotate(var(--Θ)) translateY(0) scaleY(0);
+  transition: all var(--duration) ease;
+  opacity: 0.5;
+}
+
+.bubble_line_code { left: -30px; }
+.bubble_line_code_new { left: -120px; }
+.bubble_line_code_new1 { left: 80px; }
+
+.sparkle .bubble_line_code,
+.sparkle .bubble_line_code_new,
+.sparkle .bubble_line_code_new1 {
+  animation: bubble_line calc(var(--duration) * 1.2) ease infinite forwards;
+}
+
+@keyframes bubble_line {
+  50% { height: 0.3em; }
+  50%, 60% {
+    height: 0.3em;
+    transform: translate(-50%, -50%) rotate(var(--Θ))
+      translateY(0.8em) scale(1);
+  }
+  60% { height: 0.2em; }
+  100% {
+    transform: translate(-50%, -50%) rotate(var(--Θ))
+      translateY(1em) scale(0);
+  }
+}
+{% endif %}
+
+.progress-bar-section {
+  background-color: #dbdada;
+  display: flex;
+  height: 7px;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #37a900;
+  width: 100%;
+}
+
+.free_shipping_value {
+  font-family: var(--font-body-family);
+  color: #000000;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0 14px;
+}
+
+.free_shipping_value.price-bar-update {
+  margin-bottom: 10px;
+}
+
+.progress_bar_active .progress-bar {
+  background: #37a900;
+}
+</style>

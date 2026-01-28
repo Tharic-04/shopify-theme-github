@@ -1,0 +1,272 @@
+<div class="collection-carousel-wrapper collection-carousel-wrapper-{{ section.id }}">
+    <div class="page-width section-{{ section.id }}-padding">
+  <h2 class="text-center h1">{{ section.settings.heading }}</h2>
+  
+  <div class="swiper collection-swiper collectionswiper-{{ section.id }}">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide">
+          <a href="{{ block.settings.link }}" class="collection-item">
+            {% if block.settings.image %}
+              <img src="{{ block.settings.image | image_url: width: 600 }}" alt="Featured Image" width="100%" height="100%" />
+            {% endif %}
+            {% if block.settings.title != blank %}
+              <h3>{{ block.settings.title }}</h3>
+            {% endif %}
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Navigation -->
+    <div class="swiper-button-prev swiper-button-prev-{{ section.id }}"></div>
+    <div class="swiper-button-next swiper-button-next-{{ section.id }}"></div>
+
+
+    <!-- Scrollbar -->
+    <div class="swiper-scrollbar swiper-scrollbar-{{ section.id }}"></div>
+  </div>
+
+  {% if section.settings.button_text != blank %}
+    <div class="text-center mt-6">
+      <a href="{{ section.settings.button_link }}" class="discover-btn button button--primary">
+        {{ section.settings.button_text }}
+      </a>
+    </div>
+  {% endif %}
+</div>
+</div>
+{% style %}
+
+.section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+.collection-carousel-wrapper {
+  text-align: center;
+}
+
+
+.collection-item {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.collection-item img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+.collection-item h3 {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.discover-btn {
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+/* Swiper scrollbar styling */
+.swiper-scrollbar-{{ section.id }} {
+  margin-top: 15px;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+}
+
+.swiper-scrollbar-{{ section.id }} .swiper-scrollbar-drag {
+  background: #ffc107;
+  border-radius: 3px;
+}
+.collection-carousel-wrapper .swiper-scrollbar {
+    background: rgb(235, 235, 235);
+    height: 2px;
+    bottom: 0px;
+    width: 50%;
+    left: 25%;
+}
+
+.collection-carousel-wrapper .swiper-slide{
+  background: transparent;
+}
+
+
+@media (max-width: 991px){
+.collection-carousel-wrapper .swiper-scrollbar {
+    width: 100%;
+    left: 0;
+}
+}
+
+
+  {% if section.settings.bg_image != blank %}
+  .collection-carousel-wrapper-{{ section.id }} {
+    background-image: url('{{ section.settings.bg_image | image_url }}');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: inherit;
+  }
+{% endif %}
+
+{% endstyle %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(function () {
+      const swiper = new Swiper('.collectionswiper-{{ section.id }}', {
+        slidesPerView: {{ section.settings.columns_desktop | default: 5 }},
+        spaceBetween: 20,
+        observer: true,
+        observeParents: true,
+        watchOverflow: true,
+        autoplay: {
+          delay: 4500,
+          disableOnInteraction: false,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next-{{ section.id }}',
+          prevEl: '.swiper-button-prev-{{ section.id }}'
+        },
+        scrollbar: {
+          el: '.swiper-scrollbar-{{ section.id }}',
+          draggable: true,
+        },
+        breakpoints: {
+          0: {
+            slidesPerView: {{ section.settings.columns_mobile | default: 1 }}
+          },
+          1140: {
+            slidesPerView: {{ section.settings.columns_desktop | default: 3 }}
+          }
+        }
+      });
+
+      setTimeout(() => {
+        swiper.update();
+      }, 100);
+    }, 300);
+  });
+</script>
+
+
+{% schema %}
+{
+  "name": "Collection Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "DISCOVER THE LATEST ADDITIONS"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "DISCOVER"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (Desktop)",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Columns (Mobile)",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+     {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image"
+    },
+    {
+    "type": "text",
+    "id": "custom_class",
+    "label": "t:sections.main-product.blocks.icon_with_text.settings.custom_class.label",
+    "info": "t:sections.main-product.blocks.icon_with_text.settings.custom_class.info"
+   }
+  ],
+  "blocks": [
+    {
+      "type": "collection_item",
+      "name": "Collection Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Collection Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Collection Title",
+          "default": "Collection Name"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Collection Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "Collection Carousel"
+    }
+  ]
+}
+{% endschema %}

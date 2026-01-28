@@ -1,0 +1,334 @@
+.timeline {
+  position: relative;
+  width: 900px;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 1em 0;
+  list-style-type: none;
+}
+
+.timeline:before {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  content: ' ';
+  display: block;
+  height: 100%;
+  margin-left: -3px;
+  border: dashed 2px #8a8a8a;
+  z-index: 5;
+}
+.timeline-block-image{
+  border-radius: 2px;
+}
+.timeline li {
+  padding: 1em 0;
+}
+
+.timeline li:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.direction-1 , .direction-3 {
+  position: relative;
+  width: 380px;
+  float: left;
+  text-align: right;
+  background: #e3e3e3;
+  padding: 10px;
+  border-radius: 2px;
+}
+
+.direction-2 , .direction-4 {
+  position: relative;
+  width: 380px;
+  float: right;
+  background: #e3e3e3;
+  padding: 10px;
+  border-radius: 2px;
+}
+
+.flag-wrapper {
+  position: relative;
+  display: inline-block;
+  
+  text-align: center;
+}
+
+.flag {
+  position: relative;
+  display: inline;
+  background: rgb(248,248,248);
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 24px;  
+  font-weight: 600;
+  text-align: left;
+}
+
+.direction-1 .flag , .direction-3 .flag{
+  -webkit-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+}
+
+.direction-2 .flag , .direction-4 .flag {
+  -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+}
+
+.direction-1 .flag:before,
+.direction-2 .flag:before,
+.direction-3 .flag:before,
+.direction-4 .flag:before{
+  position: absolute;
+  top: 50%;
+  right: -88px;
+  content: ' ';
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  background: rgb(255,80,80);
+  border-radius: 50%;
+  border: 4px solid rgb(255,80,80);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 20px;
+}
+.direction-1 .flag:before , .direction-3 .flag:before{
+  content: '<';
+  padding-bottom: 5px;
+  padding-left: 2px;
+}
+.direction-2 .flag:before , .direction-4 .flag:before{
+  content: '>';
+  padding-bottom: 5px;
+  padding-left: 2px;
+}
+.direction-2 .flag:before , .direction-4 .flag:before {
+  left: -89px;
+}
+
+.direction-1 .flag:after , .direction-3 .flag:after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  height: 0;
+  width: 0;
+  margin-top: -8px;
+  border: solid transparent;
+  border-left-color: rgb(248,248,248);
+  border-width: 8px;
+  pointer-events: none;
+}
+
+.direction-2 .flag:after , .direction-4 .flag:after {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  height: 0;
+  width: 0;
+  margin-top: -8px;
+  border: solid transparent;
+  border-right-color: rgb(248,248,248);
+  border-width: 8px;
+  pointer-events: none;
+}
+
+.time-wrapper {
+  display: inline;
+  
+  line-height: 1em;
+  font-size: 0.66666em;
+  color: rgb(250,80,80);
+  vertical-align: middle;
+}
+
+.direction-1 .time-wrapper , .direction-3 .time-wrapper {
+  float: left;
+}
+
+.direction-2 .time-wrapper , .direction-4 .time-wrapper {
+  float: right;
+}
+
+.time {
+  display: inline-block;
+  padding: 4px 6px;
+  background: rgb(248,248,248);
+  font-size: 16px;
+}
+
+.desc {
+  margin: 1em 0.75em 0 0;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.5em;
+}
+
+.direction-2 .desc , .direction-4 .desc {
+  margin: 1em 0 0 0.75em;
+}
+
+/* ================ Timeline Media Queries ================ */
+
+
+@media(max-width: 991px){
+  .timeline {
+    width: 660px;
+  }
+  .direction-1 , .direction-2 , .direction-3 , .direction-4 { 
+      width: 300px;
+  }
+  .direction-2 .flag:before, .direction-4 .flag:before{
+        left: -50px;
+  }
+  .direction-3 .flag:before, .direction-1 .flag:before{
+        right: -48px;
+  }
+}
+
+@media(max-width: 749px) {
+
+.timeline {
+ 	width: 100%;
+	padding: 0;
+}
+
+.timeline-image{
+     z-index: 5;
+    position: relative;
+}
+
+.timeline li {
+	padding: 2em 0;
+}
+
+.direction-1,
+.direction-2,
+.direction-3,
+.direction-4{
+	float: none;
+	width: 100%;
+
+	text-align: center;
+}
+
+.flag-wrapper {
+	text-align: center;
+}
+
+.flag {
+	background: rgb(255,255,255);
+	z-index: 15;
+}
+
+.direction-1 .flag:before,
+.direction-2 .flag:before,
+.direction-3 .flag:before,
+.direction-4 .flag:before{
+  position: absolute;
+  top: -30px;
+	left: 50%;
+	content: ' ';
+	display: block;
+	width: 12px;
+	height: 12px;
+	margin-left: -9px;
+	background: #fff;
+	border-radius: 10px;
+	border: 4px solid rgb(255,80,80);
+	z-index: 10;
+}
+
+.direction-1 .flag:after,
+.direction-2 .flag:after,
+.direction-3 .flag:after,
+.direction-3 .flag:after{
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: -8px;
+	height: 0;
+	width: 0;
+	margin-left: -8px;
+	border: solid transparent;
+	border-bottom-color: rgb(255,255,255);
+	border-width: 8px;
+	pointer-events: none;
+}
+
+.time-wrapper {
+	display: block;
+	position: relative;
+	margin: 4px 0 0 0;
+	z-index: 14;
+}
+
+.direction-1 .time-wrapper , .direction-3 .time-wrapper {
+	float: none;
+}
+
+.direction-2 .time-wrapper , .direction-4 .time-wrapper {
+	float: none;
+}
+
+.desc {
+	position: relative;
+	margin: 1em 0 0 0;
+	padding: 1em;
+	background: rgb(245,245,245);
+	-webkit-box-shadow: 0 0 1px rgba(0,0,0,0.20);
+	-moz-box-shadow: 0 0 1px rgba(0,0,0,0.20);
+	box-shadow: 0 0 1px rgba(0,0,0,0.20);
+	
+  z-index: 15;
+}
+
+.direction-1 .desc,
+.direction-2 .desc,
+.direction-3 .desc,
+.direction-4 .desc{
+	position: relative;
+	margin: 1em 1em 0 1em;
+	padding: 1em;
+	
+  z-index: 15;
+}
+    .direction-1 .flag:after, 
+  .direction-2 .flag:after , 
+  .direction-3 .flag:after , 
+  .direction-4 .flag:after {
+    display: none;
+  }
+  .direction-1 .flag:before, 
+  .direction-2 .flag:before , 
+  .direction-3 .flag:before , 
+  .direction-4 .flag:before {
+    display: none;
+  }
+
+}
+
+
+@media screen and (min-width: 400px ?? max-width: 660px) {
+
+.direction-1 .desc,
+.direction-2 .desc,
+.direction-3 .desc,
+.direction-4 .desc{
+	margin: 1em 4em 0 4em;
+}
+
+}

@@ -1,0 +1,15 @@
+.related-products {
+  display: block;
+}
+
+.related-products__heading {
+  margin: 0 0 3rem;
+}
+
+.related-products .card__information{
+  grid-row-start: 2;
+}
+
+.related-products .quick-add{
+  grid-row-start: 4;
+}

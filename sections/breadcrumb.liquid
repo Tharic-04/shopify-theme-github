@@ -1,0 +1,148 @@
+{{ 'section-breadcrumb.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- unless template == 'index' or template == 'cart' or template == 'list-collections' or template == '404' -%}
+  {%- assign t = template | split: '.' | first -%}
+  <div class="breadcrumb_section color-{{ section.settings.color_scheme }} isolate gradient {% if section.settings.page_layout == 'grid' %} page-width {% elsif section.settings.page_layout == 'full_bleed' %} full_bleed {% else %} fluid {% endif %} section-{{ section.id }}-padding text__align--{{ section.settings.text_alignment }}">
+    {%- case t -%}
+          {%- when 'product' -%}
+          <a href="{{ shop.url }}" title="{{ 'general.breadcrumb.home_page_link' | t }}">{{- 'general.breadcrumb.home_page' | t -}}</a>
+          <span aria-hidden="true"> / </span>
+          {% if collection and collection.handle %}            
+          <span aria-hidden="true"> / </span>
+          {% capture url %}{{ routes.collections_url }}{{ collection.handle }}{% endcapture %}
+          {{ collection.title | link_to: url }}
+          {% else %}
+          {% capture url %}{{ routes.all_products_collection_url }}{% endcapture %}
+          <a href="{{ url }}">{{ 'general.breadcrumb.all' | t }}</a>
+          {% endif %}
+          
+          <span aria-hidden="true"> / </span>
+          <span>{{ product.title }}</span>
+
+           {%- when 'collection' -%}
+          <a href="{{ shop.url }}" title="{{ 'general.breadcrumb.home_page_link' | t }}">{{- 'general.breadcrumb.home_page_link' | t -}}</a>
+          <span aria-hidden="true"> / </span>
+          {% capture url %}{{ routes.collections_url }}{{ collection.handle }}{% endcapture %}
+          <a href="all">{{ 'general.breadcrumb.all' | t }}</a>
+          <span aria-hidden="true"> / </span>
+          {% if current_tags %}
+          {% capture url %}{{ routes.collections_url }}{{ collection.handle }}{% endcapture %}
+          {{ collection.title | link_to: url }}
+          <span aria-hidden="true"> / </span>
+          <span>{{ current_tags | join: ' + ' }}</span>
+          {% else %}
+          <span>{{ collection.title }}</span>
+          {% endif %}
+            
+          {%- when 'blog' -%}
+          <a href="{{ shop.url }}" title="{{ 'general.breadcrumb.home_page_link' | t }}">{{- 'general.breadcrumb.home_page' | t -}}</a>
+          <span aria-hidden="true"> / </span>
+          {%- if current_tags -%}
+          {{ blog.title | link_to: blog.url }}
+          <span aria-hidden="true"> / </span>
+          {%- capture tag_url -%}{{blog.url}}/tagged/{{ current_tags | join: "+" }}{%- endcapture -%}
+          <a class="breadcrumbs__link" href="{{ tag_url }}" aria-current="page">{{ current_tags | join: " + " }}</a>
+          {%- else -%}
+          <span>{{ blog.title }}</span>
+          {%- endif -%}
+          
+          {%- when 'article' -%}
+          <a href="{{ shop.url }}" title="{{ 'general.breadcrumb.home_page_link' | t }}">{{- 'general.breadcrumb.home_page' | t -}}</a>
+          <span aria-hidden="true"> / </span>
+          {{ blog.title | link_to: blog.url }}
+          <span aria-hidden="true"> / </span>
+          <span class="breadcrumbs__link" aria-current="page">{{ article.title }}</span>           
+          {%- else -%}
+          <a href="{{ shop.url }}" title="{{ 'general.breadcrumb.home_page_link' | t }}">{{- 'general.breadcrumb.home_page' | t -}}</a>
+          <span aria-hidden="true"> / </span>
+          <span class="breadcrumbs__link" aria-current="page">{{ page_title }}</span>
+    {%- endcase -%}
+  </div>
+{%- endunless -%}
+
+
+
+
+
+{% schema %}
+  {
+    "name": "t:sections.breadcrumb.name",
+    "class": "section",
+    "tag": "section",
+    "disabled_on": {
+    "groups": ["header", "footer"]
+    },
+    "settings": [
+      {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "background-1"
+    },
+      {
+      "type": "select",
+      "id": "text_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.text_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.text_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.text_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.text_alignment.header.label"
+    }, 
+      {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 16
+    }
+    ],
+    "presets": [
+    {
+      "name": "t:sections.breadcrumb.presets.name"
+    }
+  ]
+  }
+{% endschema %}

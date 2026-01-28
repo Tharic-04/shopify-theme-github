@@ -1,0 +1,367 @@
+<div class="bmi_calculator {{ section.settings.custom_class }} color-{{ section.settings.color_scheme }} gradient{% if section.settings.title == blank %} no-heading{% endif %} {{ section.settings.custom_class_name }} ">
+ <div class="{% if section.settings.page_full_width %} page-full-width {% else %} page-width {% endif %} {% if section.settings.page_full_width_spacing %} page-full-width_spacing {% endif %}section-{{ section.id }}-padding isolate grid-banner-padding">
+ <div class="row"> 
+
+    <!-- Splash Screen -->
+    <div id="splashScreen">
+        <h1>Welcome to BMI Calculator</h1>
+    </div>
+
+    <!-- Main Screen -->
+    <div id="mainScreen" class="hidden">
+        <h2>BMI Calculator</h2>
+
+        <!-- Gender Selection -->
+        <div>
+            <button id="maleBtn" class="gender-btn">Male</button>
+            <button id="femaleBtn" class="gender-btn">Female</button>
+        </div>
+
+        <!-- Input Fields -->
+        <div>
+            <label for="heightInput">Height (cm):</label>
+            <input type="number" id="heightInput" placeholder="Enter height">
+        </div>
+
+        <div>
+            <label for="weightInput">Weight (kg):</label>
+            <button id="weightDecrease">-</button>
+            <input type="number" id="weightInput" value="60">
+            <button id="weightIncrease">+</button>
+        </div>
+
+        <div>
+            <label for="ageInput">Age:</label>
+            <button id="ageDecrease">-</button>
+            <input type="number" id="ageInput" value="25">
+            <button id="ageIncrease">+</button>
+        </div>
+
+        <!-- Calculate Button -->
+        <button id="calculateBtn">Calculate BMI</button>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="resultScreen" class="hidden">
+        <h2>Your BMI Result</h2>
+        <p>BMI: <span id="bmiResult">--</span></p>
+        <p>Category: <span id="bmiCategory">--</span></p>
+        <p id="bmiAdvice"></p>
+        
+        <!-- Recalculate Button -->
+        <button id="recalculateBtn">Recalculate</button>
+    </div>
+   </div>
+   </div>
+  </div>
+
+
+{% style %}
+
+/* Responsive Section Padding */
+.section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top | times: 0.50 | round: 0 }}px;
+  padding-bottom: {{ section.settings.padding_bottom | times: 0.50 | round: 0 }}px;
+}
+
+@media screen and (min-width: 576px) and (max-width: 749px) {
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+}
+
+
+/* Splash Screen */
+#splashScreen {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20%;
+}
+
+/* Hide Elements */
+.hidden {
+  display: none;
+}
+
+/* Main Containers */
+#mainScreen, #resultScreen {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background: #333;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  text-align: center;
+}
+
+/* Gender Selection Buttons */
+.gender-btn {
+  background: #444;
+  border: 2px solid #777;
+  padding: 12px 24px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+}
+
+.gender-btn:hover {
+  background: #555;
+}
+
+.gender-btn.active {
+  background: #32CD32; /* Lime Green */
+  color: black;
+  border-color: #32CD32;
+  font-weight: bold;
+}
+
+/* Input Fields */
+input[type="number"] {
+  width: 80px;
+  padding: 10px;
+  font-size: 18px;
+  text-align: center;
+  background: #444;
+  border: 2px solid #777;
+  color: white;
+  border-radius: 5px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Plus and Minus Buttons */
+button {
+  background: #32CD32; /* Lime Green */
+  color: black;
+  border: none;
+  padding: 10px 15px;
+  font-size: 18px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+  background: #3cb043; /* Slightly darker green */
+}
+
+/* BMI Result */
+#bmiResult {
+  font-size: 26px;
+  font-weight: bold;
+  color: #32CD32; /* Lime Green */
+}
+
+#bmiCategory {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#bmiAdvice {
+  margin-top: 15px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Result Screen Styling */
+.result-box {
+  background: #444;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+  #splashScreen{
+    margin-top: 0;
+  }
+  div#mainScreen * {
+    color: #fff;
+}
+  #heightInput{
+    width: 200px;
+  }
+  #resultScreen h2{
+    color: #fff;
+  }
+  @media(max-width: 576px){
+    #mainScreen, #resultScreen {
+        padding: 20px 10px;
+    }
+  }
+{% endstyle %}
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+  const mainScreen = document.getElementById("mainScreen");
+  const resultScreen = document.getElementById("resultScreen");
+  const calculateBtn = document.getElementById("calculateBtn");
+  const recalculateBtn = document.getElementById("recalculateBtn");
+  const maleBtn = document.getElementById("maleBtn");
+  const femaleBtn = document.getElementById("femaleBtn");
+  const heightInput = document.getElementById("heightInput");
+  const weightInput = document.getElementById("weightInput");
+  const ageInput = document.getElementById("ageInput");
+  const bmiResult = document.getElementById("bmiResult");
+  const bmiCategory = document.getElementById("bmiCategory");
+  const bmiAdvice = document.getElementById("bmiAdvice");
+
+  // Ensure the main form is visible immediately
+  mainScreen.classList.remove("hidden");
+
+  // Gender selection function
+  function selectGender(selected, other) {
+    selected.classList.add("active");
+    other.classList.remove("active");
+  }
+
+  maleBtn.addEventListener("click", () => selectGender(maleBtn, femaleBtn));
+  femaleBtn.addEventListener("click", () => selectGender(femaleBtn, maleBtn));
+
+  // Function to handle increment/decrement buttons
+  function updateValue(input, change) {
+    let value = parseInt(input.value) || 0;
+    input.value = Math.max(1, value + change);
+  }
+
+  document.getElementById("weightDecrease").addEventListener("click", () => updateValue(weightInput, -1));
+  document.getElementById("weightIncrease").addEventListener("click", () => updateValue(weightInput, 1));
+  document.getElementById("ageDecrease").addEventListener("click", () => updateValue(ageInput, -1));
+  document.getElementById("ageIncrease").addEventListener("click", () => updateValue(ageInput, 1));
+
+  // Calculate BMI function
+  calculateBtn.addEventListener("click", () => {
+    const height = parseFloat(heightInput.value) / 100; // Convert cm to meters
+    const weight = parseFloat(weightInput.value);
+    if (!height || !weight || height <= 0 || weight <= 0) {
+      alert("Please enter valid height and weight values.");
+      return;
+    }
+
+    const bmi = weight / (height * height);
+    bmiResult.textContent = bmi.toFixed(1);
+
+    let category, advice;
+    if (bmi < 18.5) {
+      category = "Underweight";
+      advice = "Increase calorie intake with nutritious foods.";
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+      category = "Normal weight";
+      advice = "Maintain a balanced diet and stay active.";
+    } else if (bmi >= 25 && bmi < 29.9) {
+      category = "Overweight";
+      advice = "Consider regular exercise and healthy eating.";
+    } else {
+      category = "Obesity";
+      advice = "Consult a healthcare provider for guidance.";
+    }
+
+    bmiCategory.textContent = category;
+    bmiAdvice.textContent = advice;
+
+    mainScreen.classList.add("hidden");
+    resultScreen.classList.remove("hidden");
+  });
+
+  // Reset form and show main screen
+  recalculateBtn.addEventListener("click", () => {
+    resultScreen.classList.add("hidden");
+    mainScreen.classList.remove("hidden");
+  });
+});
+
+</script>
+
+
+{% schema %}
+{
+  "name": "BMI Calculator",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "hxl",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "hxxl",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    }
+  ],
+  "presets": [
+    {
+      "name": "BMI Calculator"
+    }
+  ]
+}
+{% endschema %}

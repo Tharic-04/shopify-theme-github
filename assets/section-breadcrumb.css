@@ -1,0 +1,33 @@
+.template-product .breadcrumb_section {
+  margin-bottom: 0;
+}
+.breadcrumb_section :is(a, span) {
+  color: rgba(var(--color-foreground), 1);
+  text-decoration: none;
+  transition: all var(--duration-default) linear;
+  letter-spacing: calc(var(--heading-letter-spacing) * .1);
+  text-transform: capitalize;
+  line-height: calc(1 + 0.6 / var(--font-body-scale));
+}
+.breadcrumb_section :is(a):hover {
+  color: rgba(var(--color-button-hover), 1);
+}
+.breadcrumb_section.text__align--left {
+  text-align: left;
+}
+.breadcrumb_section.text__align--center {
+  text-align: center;
+}
+.breadcrumb_section.text__align--right {
+  text-align: right;
+}
+
+@media(max-width: 749px){
+  .breadcrumb_section{
+    display: none;
+  }
+}
+
+.breadcrumb_section{
+  display:none;
+}
