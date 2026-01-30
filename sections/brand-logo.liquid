@@ -78,7 +78,20 @@
         {%- for block in section.blocks -%}
       <div class="swiper-slide">
         <div class="brand-logo-image">
-            <img class="brand-block-image" srcset="{{ block.settings.image | image_url: width: 1200 }}" sizes="100vw" src="{{ block.settings.image | image_url: width: 1200  }}" fetchpriority= "fetch_priority" alt="" width="290" height="290">
+           <img
+  class="brand-block-image"
+  src="{{ block.settings.image | image_url: width: 300 }}"
+  srcset="
+    {{ block.settings.image | image_url: width: 150 }} 150w,
+    {{ block.settings.image | image_url: width: 300 }} 300w,
+    {{ block.settings.image | image_url: width: 600 }} 600w
+  "
+  sizes="290px"
+  loading="lazy"
+  alt="{{ block.settings.image.alt | escape }}"
+  width="290"
+  height="290"
+>
          </div>
       </div>
         {%- endfor -%}
