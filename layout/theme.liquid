@@ -485,5 +485,52 @@ function cancelRedirect() {
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
+    <script>
+document.addEventListener("DOMContentLoaded", async function () {
+  const FREE_GIFT_VARIANT_ID = 47846716637351; // your gift variant ID
+  const FRIDAY = 5; // ✅ Friday
+  const today = new Date().getDay();
+
+  if (today !== FRIDAY) return;
+
+  try {
+    const res = await fetch('/cart.js');
+    const cart = await res.json();
+
+    const hasGift = cart.items.some(
+      item => item.variant_id === FREE_GIFT_VARIANT_ID
+    );
+
+    // Add gift if cart has items and gift not already added
+    if (cart.item_count > 0 && !hasGift) {
+      await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: FREE_GIFT_VARIANT_ID,
+          quantity: 1
+        })
+      });
+      location.reload();
+    }
+
+    // Remove gift if cart is empty
+    if (cart.item_count === 0 && hasGift) {
+      await fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: FREE_GIFT_VARIANT_ID,
+          quantity: 0
+        })
+      });
+    }
+  } catch (e) {
+    console.error('Free gift error:', e);
+  }
+});
+</script>
+
+
  </body>
 </html>
