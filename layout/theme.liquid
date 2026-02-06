@@ -485,57 +485,133 @@ function cancelRedirect() {
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-   <script>
-document.addEventListener("DOMContentLoaded", async function () {
-  const FREE_GIFT_VARIANT_ID = 47846716637351; // gift variant
-  const FRIDAY = 5; // test day
-  const today = new Date().getDay();
+  <script>
+(function () {
+  const FREE_GIFT_VARIANT_ID = 47846716637351; // ✅ your gift variant ID
+  const DAY_TO_RUN = 5; // ✅ Friday for testing (Sunday = 0)
+  const LOCK_KEY = "protyze_gift_lock";
 
-  if (today !== FRIDAY) return;
-
-  try {
-    const res = await fetch('/cart.js');
-    const cart = await res.json();
-
-    const hasGift = cart.items.some(
-      item => item.variant_id === FREE_GIFT_VARIANT_ID
-    );
-
-    const hasPaidProduct = cart.items.some(
-      item => item.variant_id !== FREE_GIFT_VARIANT_ID
-    );
-
-    // ✅ Add gift ONLY if paid product exists
-    if (hasPaidProduct && !hasGift) {
-      await fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: FREE_GIFT_VARIANT_ID,
-          quantity: 1
-        })
-      });
-      location.reload();
-    }
-
-    // ❌ Remove gift if no paid products
-    if (!hasPaidProduct && hasGift) {
-      await fetch('/cart/change.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: FREE_GIFT_VARIANT_ID,
-          quantity: 0
-        })
-      });
-      location.reload();
-    }
-
-  } catch (e) {
-    console.error('Free gift error:', e);
+  function isCorrectDay() {
+    return new Date().getDay() === DAY_TO_RUN;
   }
-});
+
+  async function getCart() {
+    const res = await fetch("/cart.js", { credentials: "same-origin" });
+    return await res.json();
+  }
+
+  async function addGift() {
+    return fetch("/cart/add.js", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({ id: FREE_GIFT_VARIANT_ID, quantity: 1 })
+    });
+  }
+
+  async function removeGiftByLine(line) {
+    return fetch("/cart/change.js", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({ line, quantity: 0 })
+    });
+  }
+
+  // Dawn + most themes: refresh sections without reloading page
+  async function refreshCartUI() {
+    try {
+      const url = `${window.Shopify?.routes?.root || "/"}?sections=cart-drawer,cart-icon-bubble,main-cart-items,main-cart-footer`;
+      const res = await fetch(url, { credentials: "same-origin" });
+      const sections = await res.json();
+
+      Object.entries(sections).forEach(([sectionId, html]) => {
+        const wrapper = document.querySelector(`#shopify-section-${sectionId}`);
+        if (wrapper) {
+          const temp = document.createElement("div");
+          temp.innerHTML = html;
+          const newWrapper = temp.querySelector(`#shopify-section-${sectionId}`);
+          if (newWrapper) wrapper.replaceWith(newWrapper);
+        }
+      });
+
+      // If theme uses custom events
+      document.dispatchEvent(new CustomEvent("cart:refresh"));
+      document.dispatchEvent(new CustomEvent("cart:updated"));
+    } catch (e) {
+      // If sections refresh fails, do nothing (still prevents stuck loading)
+      console.warn("Cart UI refresh skipped:", e);
+    }
+  }
+
+  function acquireLock() {
+    const now = Date.now();
+    const existing = Number(sessionStorage.getItem(LOCK_KEY) || 0);
+    if (existing && now - existing < 2500) return false; // prevent spam
+    sessionStorage.setItem(LOCK_KEY, String(now));
+    return true;
+  }
+
+  function releaseLock() {
+    sessionStorage.removeItem(LOCK_KEY);
+  }
+
+  async function syncGift(trigger = "auto") {
+    if (!isCorrectDay()) return;
+    if (!acquireLock()) return;
+
+    try {
+      const cart = await getCart();
+
+      const giftLineIndex = cart.items.findIndex(i => i.variant_id === FREE_GIFT_VARIANT_ID);
+      const hasGift = giftLineIndex !== -1;
+
+      // ✅ at least one NON-gift item must exist
+      const hasPaidProduct = cart.items.some(i => i.variant_id !== FREE_GIFT_VARIANT_ID);
+
+      // Add gift only if paid product exists
+      if (hasPaidProduct && !hasGift) {
+        await addGift();
+        await refreshCartUI();
+        return;
+      }
+
+      // Remove gift if no paid items (gift alone or cart empty)
+      if (!hasPaidProduct && hasGift) {
+        await removeGiftByLine(giftLineIndex + 1); // line is 1-based
+        await refreshCartUI();
+        return;
+      }
+    } catch (e) {
+      console.error("Gift sync error:", e);
+    } finally {
+      releaseLock();
+    }
+  }
+
+  // Run once after page load (small delay helps with AJAX carts)
+  setTimeout(() => syncGift("load"), 700);
+
+  // Run after Add to Cart (covers most themes)
+  document.addEventListener("submit", (e) => {
+    const form = e.target;
+    if (form && form.action && form.action.includes("/cart/add")) {
+      setTimeout(() => syncGift("add_to_cart_submit"), 1200);
+    }
+  }, true);
+
+  // Run when cart drawer opens / changes (generic)
+  document.addEventListener("click", (e) => {
+    const el = e.target.closest('[href*="/cart"], [data-cart], button[name="add"], .cart, .cart-drawer, .cart__toggle');
+    if (el) setTimeout(() => syncGift("click_cart_related"), 1200);
+  });
+
+  // Optional: if your theme fires events
+  document.addEventListener("cart:updated", () => syncGift("event_cart_updated"));
+  document.addEventListener("cart:refresh", () => syncGift("event_cart_refresh"));
+})();
 </script>
+
 
 
 
