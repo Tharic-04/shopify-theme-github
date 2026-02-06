@@ -485,10 +485,10 @@ function cancelRedirect() {
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-    <script>
+   <script>
 document.addEventListener("DOMContentLoaded", async function () {
-  const FREE_GIFT_VARIANT_ID = 47846716637351; // your gift variant ID
-  const FRIDAY = 5; // ✅ Friday
+  const FREE_GIFT_VARIANT_ID = 47846716637351; // gift variant
+  const FRIDAY = 5; // test day
   const today = new Date().getDay();
 
   if (today !== FRIDAY) return;
@@ -501,8 +501,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       item => item.variant_id === FREE_GIFT_VARIANT_ID
     );
 
-    // Add gift if cart has items and gift not already added
-    if (cart.item_count > 0 && !hasGift) {
+    const hasPaidProduct = cart.items.some(
+      item => item.variant_id !== FREE_GIFT_VARIANT_ID
+    );
+
+    // ✅ Add gift ONLY if paid product exists
+    if (hasPaidProduct && !hasGift) {
       await fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -514,8 +518,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       location.reload();
     }
 
-    // Remove gift if cart is empty
-    if (cart.item_count === 0 && hasGift) {
+    // ❌ Remove gift if no paid products
+    if (!hasPaidProduct && hasGift) {
       await fetch('/cart/change.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -524,12 +528,15 @@ document.addEventListener("DOMContentLoaded", async function () {
           quantity: 0
         })
       });
+      location.reload();
     }
+
   } catch (e) {
     console.error('Free gift error:', e);
   }
 });
 </script>
+
 
 
  </body>
