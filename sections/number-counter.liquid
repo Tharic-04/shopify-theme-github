@@ -52,7 +52,7 @@
    }
   
 {%- endstyle -%}
-<script src="{{ 'inview.js' | asset_url }}" defer></script>
+{% comment %} <script src="{{ 'inview.js' | asset_url }}" defer></script> {% endcomment %}
 <script src="{{ 'number-counter.js' | asset_url }}" defer></script>
 <div
   data-section-id="{{ section.id }}"
