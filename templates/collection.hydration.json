@@ -92,6 +92,7 @@
       "block_order": [
         "heading_BkJe4i"
       ],
+      "disabled": true,
       "settings": {
         "image": "shopify://shop_images/collection.png",
         "mobile_image": "shopify://shop_images/collection.png",
