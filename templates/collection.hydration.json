@@ -53,7 +53,7 @@
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "title": "Featured collection",
+        "title": "Hydra collection",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
@@ -113,7 +113,7 @@
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "title": "Featured collection",
+        "title": "Hydra-X collection",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
