@@ -77,22 +77,22 @@
         -%}
         {%- for block in section.blocks -%}
       <div class="swiper-slide">
-        <div class="brand-logo-image">
-           <img
-  class="brand-block-image"
-  src="{{ block.settings.image | image_url: width: 300 }}"
-  srcset="
-    {{ block.settings.image | image_url: width: 150 }} 150w,
-    {{ block.settings.image | image_url: width: 300 }} 300w,
-    {{ block.settings.image | image_url: width: 600 }} 600w
-  "
-  sizes="290px"
-  loading="lazy"
-  alt="{{ block.settings.image.alt | escape }}"
-  width="290"
-  height="290"
->
-         </div>
+       <div class="brand-logo-image">
+  <img 
+    class="brand-block-image"
+    src="{{ block.settings.image | image_url: width: 200 }}"
+    srcset="
+      {{ block.settings.image | image_url: width: 200 }} 200w,
+      {{ block.settings.image | image_url: width: 400 }} 400w
+    "
+    sizes="(max-width: 768px) 120px, 176px"
+    alt="Brand logo"
+    width="176"
+    height="105"
+    loading="lazy"
+    decoding="async"
+  >
+</div>
       </div>
         {%- endfor -%}
     </div>
