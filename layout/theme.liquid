@@ -385,7 +385,7 @@
 
 {% comment %} speculationrules For speed optimization {% endcomment %}
 
-{% if request.page_type == 'product' %}
+{% comment %} {% if request.page_type == 'product' %}
 <script type="speculationrules">
 {
   "prefetch": [
@@ -398,7 +398,7 @@
   ]
 }
 </script>
-{% endif %}
+{% endif %} {% endcomment %}
 
 
 
