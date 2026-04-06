@@ -391,9 +391,10 @@
   "prefetch": [
     {
       "where": {
-        "href_matches": "/products/*"
-      },
-      "eagerness": "conservative"
+        "and": [
+          { "href_matches": "/products/*" }
+        ]
+      }
     }
   ]
 }
