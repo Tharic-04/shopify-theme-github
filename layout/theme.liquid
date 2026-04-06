@@ -383,6 +383,23 @@
 </script>
 
 
+{% comment %} speculationrules For speed optimization {% endcomment %}
+
+{% if request.page_type == 'product' %}
+<script type="speculationrules">
+{
+  "prefetch": [
+    {
+      "where": {
+        "href_matches": "/products/*"
+      },
+      "eagerness": "conservative"
+    }
+  ]
+}
+</script>
+{% endif %}
+
 
 
 </head>
