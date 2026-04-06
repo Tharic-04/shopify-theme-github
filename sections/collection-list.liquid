@@ -1,6 +1,16 @@
 {{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
-{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{% comment %} {{ 'component-slider.css' | asset_url | stylesheet_tag }} {% endcomment %}
+
+<link
+  rel="preload"
+  href="{{ 'component-slider.css' | asset_url }}"
+  as="style"
+  onload="this.onload=null;this.rel='stylesheet'"
+>
+<noscript>
+  {{ 'component-slider.css' | asset_url | stylesheet_tag }}
+</noscript>
 
 {%- style -%}
   .section-{{ section.id }}-padding {
