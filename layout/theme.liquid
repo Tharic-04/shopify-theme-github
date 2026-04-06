@@ -318,19 +318,8 @@
     {% endstyle %}
 
     {% comment %} {{ 'base.css' | asset_url | stylesheet_tag }} {% endcomment %}
+ {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
 
-    {% comment %} {{ 'base.css' | asset_url | stylesheet_tag: preload: true }} {% endcomment %}
-
-    {% comment %} Deferred full stylesheet - does NOT block render {% endcomment %}
-<link
-  rel="preload"
-  href="{{ 'base.css' | asset_url }}"
-  as="style"
-  onload="this.rel='stylesheet'"
->
-<noscript>
-  {{ 'base.css' | asset_url | stylesheet_tag }}
-</noscript>
     
     <link rel="preload" href="{{ 'swiper.css' | asset_url }}" as="style">
     {{ 'swiper.css' | asset_url | stylesheet_tag }}
