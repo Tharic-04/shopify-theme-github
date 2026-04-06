@@ -6,7 +6,16 @@
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  {% comment %} {{ 'component-slider.css' | asset_url | stylesheet_tag }} {% endcomment %}
+   <link
+  rel="preload"
+  href="{{ 'component-slider.css' | asset_url }}"
+  as="style"
+  onload="this.onload=null;this.rel='stylesheet'"
+>
+<noscript>
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
+</noscript>
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
   {% unless product.has_only_default_variant %}
