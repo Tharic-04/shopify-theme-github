@@ -318,7 +318,8 @@
     {% endstyle %}
 
     {% comment %} {{ 'base.css' | asset_url | stylesheet_tag }} {% endcomment %}
- {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
+<link rel="preload" href="{{ 'base.css' | asset_url }}" as="style">
+{{ 'base.css' | asset_url | stylesheet_tag }}
 
     
     <link rel="preload" href="{{ 'swiper.css' | asset_url }}" as="style">
