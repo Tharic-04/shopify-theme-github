@@ -38,6 +38,8 @@
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
+    <!-- Swiper JS -->
+    <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script>
 
     
     <!-- <script src="{{ 'clipboard.min.js' | asset_url }}" defer="defer"></script>  -->
@@ -370,57 +372,15 @@
       }
     </script>
 
-        <!-- Swiper JS -->
-    {% comment %} <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script> {% endcomment %}
-
-
-<!-- ======= SWIPER CONFIGURATION ======= -->
-
-<!-- 1. Load Swiper Library -->
-<script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script>
-
-<!-- 2. Load Swiper CSS -->
-<link rel="stylesheet" href="{{ 'swiper.css' | asset_url }}">
-
-<!-- 3. Safe Initialization (single place only) -->
-<script defer>
-  window.addEventListener('load', function() {
-    // Ensure both Swiper library and init function exist
-    if (typeof Swiper !== 'undefined' && typeof swiperInit === 'function') {
-      console.log('✅ Swiper library ready - initializing carousels');
-      swiperInit();
-    } else {
-      if (typeof Swiper === 'undefined') {
-        console.warn('⚠️ Swiper library not loaded');
-      }
-      if (typeof swiperInit === 'undefined') {
-        console.warn('⚠️ swiperInit function not found');
-      }
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (document.querySelector('.swiper')) {
+      var script = document.createElement('script');
+      script.src = '{{ "swiper.js" | asset_url }}';
+      script.defer = true;
+      document.body.appendChild(script);
     }
   });
-</script>
-
-<!-- ======= END SWIPER CONFIGURATION ======= -->
-
-<!-- 2. YOUR SWIPER INIT FUNCTION (in a section file or separate script) -->
-<!-- Make sure this function exists and DON'T call it automatically -->
-<script>
-  function swiperInit() {
-    // Initialize all swipers on page
-    document.querySelectorAll('.swiper').forEach(function(swiperEl) {
-      new Swiper(swiperEl, {
-        loop: true,
-        pagination: { el: '.swiper-pagination' },
-        navigation: { 
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        }
-        // Add your config here
-      });
-    });
-  }
-  
-  // DO NOT call swiperInit() here - let the lazy loader call it
 </script>
 
 
