@@ -382,34 +382,9 @@ Other pages: Swiper not loaded
     <!-- Swiper JS -->
     {% comment %} <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script> {% endcomment %}
 
-{% if request.page_type == 'index' %}
-  <!-- Homepage: preload + defer -->
-  <link rel="preload" as="script" href="{{ 'swiper.js' | asset_url }}">
+<!-- Swiper JS - Safe for Live Site -->
+{% if request.page_type == 'index' or request.page_type == 'product' %}
   <script src="{{ 'swiper.js' | asset_url }}" defer></script>
-
-{% elsif request.page_type == 'product' %}
-  <!-- Product page: safe lazy load -->
-  <script>
-    function loadSwiperAndInit() {
-      if (typeof Swiper === 'undefined') {
-        const script = document.createElement('script');
-        script.src = "{{ 'swiper.js' | asset_url }}";
-        script.defer = true;
-        script.onload = function() {
-          if (typeof swiperInit === 'function') {
-            swiperInit(); // run your initialization after Swiper loads
-          }
-        };
-        document.body.appendChild(script);
-      } else {
-        // Swiper already loaded, just run init
-        if (typeof swiperInit === 'function') swiperInit();
-      }
-    }
-
-    // Wait for DOM ready
-    document.addEventListener('DOMContentLoaded', loadSwiperAndInit);
-  </script>
 {% endif %}
 
 
