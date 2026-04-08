@@ -374,30 +374,58 @@
     {% comment %} <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script> {% endcomment %}
 
 
-<!-- SAFER: Conditional Lazy Loading with Init Check -->
+<!-- File: theme.liquid -->
+
+<!-- 1. LAZY LOAD SWIPER WITH PROPER TIMING -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     if (document.querySelector('.swiper')) {
+      console.log('🔍 Swiper detected - loading library...');
+      
       var script = document.createElement('script');
       script.src = '{{ "swiper.js" | asset_url }}';
       script.defer = true;
       
-      // Wait for swiper to load before initializing
       script.onload = function() {
-        console.log('✅ Swiper.js loaded successfully');
-        // Trigger any custom swiper initialization if needed
-        if (window.Shopify && window.Shopify.theme) {
-          console.log('Swiper ready to use');
+        console.log('✅ Swiper library loaded successfully');
+        
+        // NOW initialize swiper
+        if (typeof swiperInit === 'function') {
+          swiperInit();
+          console.log('✅ Swiper carousels initialized');
         }
       };
       
       script.onerror = function() {
-        console.error('❌ Failed to load swiper.js');
+        console.error('❌ Failed to load swiper.js from {{ "swiper.js" | asset_url }}');
       };
       
       document.body.appendChild(script);
+    } else {
+      console.log('ℹ️ No swiper elements found on this page');
     }
   });
+</script>
+
+<!-- 2. YOUR SWIPER INIT FUNCTION (in a section file or separate script) -->
+<!-- Make sure this function exists and DON'T call it automatically -->
+<script>
+  function swiperInit() {
+    // Initialize all swipers on page
+    document.querySelectorAll('.swiper').forEach(function(swiperEl) {
+      new Swiper(swiperEl, {
+        loop: true,
+        pagination: { el: '.swiper-pagination' },
+        navigation: { 
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+        // Add your config here
+      });
+    });
+  }
+  
+  // DO NOT call swiperInit() here - let the lazy loader call it
 </script>
 
 
