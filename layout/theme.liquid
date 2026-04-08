@@ -374,31 +374,33 @@
     {% comment %} <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script> {% endcomment %}
 
 
-<!-- SAFER: Conditional Lazy Loading with Init Check -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    if (document.querySelector('.swiper')) {
-      var script = document.createElement('script');
-      script.src = '{{ "swiper.js" | asset_url }}';
-      script.defer = true;
-      
-      // Wait for swiper to load before initializing
-      script.onload = function() {
-        console.log('✅ Swiper.js loaded successfully');
-        // Trigger any custom swiper initialization if needed
-        if (window.Shopify && window.Shopify.theme) {
-          console.log('Swiper ready to use');
-        }
-      };
-      
-      script.onerror = function() {
-        console.error('❌ Failed to load swiper.js');
-      };
-      
-      document.body.appendChild(script);
+<!-- ======= SWIPER CONFIGURATION ======= -->
+
+<!-- 1. Load Swiper Library -->
+<script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script>
+
+<!-- 2. Load Swiper CSS -->
+<link rel="stylesheet" href="{{ 'swiper.css' | asset_url }}">
+
+<!-- 3. Safe Initialization (single place only) -->
+<script defer>
+  window.addEventListener('load', function() {
+    // Ensure both Swiper library and init function exist
+    if (typeof Swiper !== 'undefined' && typeof swiperInit === 'function') {
+      console.log('✅ Swiper library ready - initializing carousels');
+      swiperInit();
+    } else {
+      if (typeof Swiper === 'undefined') {
+        console.warn('⚠️ Swiper library not loaded');
+      }
+      if (typeof swiperInit === 'undefined') {
+        console.warn('⚠️ swiperInit function not found');
+      }
     }
   });
 </script>
+
+<!-- ======= END SWIPER CONFIGURATION ======= -->
 
 
 {% comment %} speculationrules For speed optimization {% endcomment %}
