@@ -39,7 +39,6 @@
     {%- endif -%}
 
 
-
     
     <!-- <script src="{{ 'clipboard.min.js' | asset_url }}" defer="defer"></script>  -->
     <script src="{{ 'clipboard.js' | asset_url }}" defer="defer"></script> 
@@ -371,14 +370,20 @@
       }
     </script>
 
+        <!-- Swiper JS -->
+    <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script>
 
-    <!-- Swiper JS -->
-    {% comment %} <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script> {% endcomment %}
 
-<!-- Swiper JS - Safe for Live Site -->
-{% if request.page_type == 'index' or request.page_type == 'product' %}
-  <script src="{{ 'swiper.js' | asset_url }}" defer></script>
-{% endif %}
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (document.querySelector('.swiper')) {
+      var script = document.createElement('script');
+      script.src = '{{ "swiper.js" | asset_url }}';
+      script.defer = true;
+      document.body.appendChild(script);
+    }
+  });
+</script>
 
 
 {% comment %} speculationrules For speed optimization {% endcomment %}
