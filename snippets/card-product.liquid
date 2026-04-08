@@ -253,16 +253,11 @@
               </div>
             {%- endif -%}
           </div>
-          <!-- {%- if settings.product_offer_text1 != blank -%}
-           <div class="product-offer-text text1">
-           {{ settings.product_offer_text1 }}
-             <span> Rs. {{ card_product.price | times: 0.9 | money_without_currency }} </span> 
-        </div>
-        {%- endif -%} -->
+    
           {%- if settings.product_offer_text2 != blank -%}
            <div class="product-offer-text text2">
            {{ settings.product_offer_text2 }}
-             <!-- <span> Rs. {{ card_product.price | times: 0.9 | money_without_currency }} </span> -->
+         
         </div>
         {%- endif -%}
 
@@ -275,8 +270,7 @@
               <span id="icon1" class="desktop-offer-price">
               <s class="price-item price-item--regular"> Rs. {{ card_product.price | money_without_currency  }} </s> 
                 </span>
-             <!--   <span id="icon1" class="desktop-offer-price">Auto-Applies*</span>  -->
-              <!-- <span class="mobile-offer-text"><s class="price-item price-item--regular"> Rs. {{ card_product.price | money_without_currency }} </s></span> -->
+             
                <span class="mobile-offer-text">Get it at</span> 
             <span id="icon2" class="icon2"> Rs. {{ card_product.price | times: 0.97 | money_without_currency  }} </span> 
               </div>
@@ -300,8 +294,7 @@
               <span id="icon1" class="desktop-offer-price">
               <s class="price-item price-item--regular"> Rs. {{ card_product.price | money_without_currency  }} </s> 
                 </span>
-             <!--   <span id="icon1" class="desktop-offer-price">Auto-Applies*</span>  -->
-              <!-- <span class="mobile-offer-text"><s class="price-item price-item--regular"> Rs. {{ card_product.price | money_without_currency }} </s></span> -->
+           
                <span class="mobile-offer-text">Get it at</span> 
             <span id="icon2" class="icon2"> Rs. {{ card_product.price | times: 0.97 | money_without_currency  }} </span> 
               </div>
@@ -518,7 +511,6 @@
     height="65"
   />
 {%- else -%}
-  <!-- Bestseller image not set -->
 {%- endif -%}
 {%- endif -%}
 
