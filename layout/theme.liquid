@@ -374,38 +374,33 @@
     {% comment %} <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script> {% endcomment %}
 
 
-<!-- File: theme.liquid -->
+<!-- ======= SWIPER CONFIGURATION ======= -->
 
-<!-- 1. LAZY LOAD SWIPER WITH PROPER TIMING -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    if (document.querySelector('.swiper')) {
-      console.log('🔍 Swiper detected - loading library...');
-      
-      var script = document.createElement('script');
-      script.src = '{{ "swiper.js" | asset_url }}';
-      script.defer = true;
-      
-      script.onload = function() {
-        console.log('✅ Swiper library loaded successfully');
-        
-        // NOW initialize swiper
-        if (typeof swiperInit === 'function') {
-          swiperInit();
-          console.log('✅ Swiper carousels initialized');
-        }
-      };
-      
-      script.onerror = function() {
-        console.error('❌ Failed to load swiper.js from {{ "swiper.js" | asset_url }}');
-      };
-      
-      document.body.appendChild(script);
+<!-- 1. Load Swiper Library -->
+<script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script>
+
+<!-- 2. Load Swiper CSS -->
+<link rel="stylesheet" href="{{ 'swiper.css' | asset_url }}">
+
+<!-- 3. Safe Initialization (single place only) -->
+<script defer>
+  window.addEventListener('load', function() {
+    // Ensure both Swiper library and init function exist
+    if (typeof Swiper !== 'undefined' && typeof swiperInit === 'function') {
+      console.log('✅ Swiper library ready - initializing carousels');
+      swiperInit();
     } else {
-      console.log('ℹ️ No swiper elements found on this page');
+      if (typeof Swiper === 'undefined') {
+        console.warn('⚠️ Swiper library not loaded');
+      }
+      if (typeof swiperInit === 'undefined') {
+        console.warn('⚠️ swiperInit function not found');
+      }
     }
   });
 </script>
+
+<!-- ======= END SWIPER CONFIGURATION ======= -->
 
 <!-- 2. YOUR SWIPER INIT FUNCTION (in a section file or separate script) -->
 <!-- Make sure this function exists and DON'T call it automatically -->
