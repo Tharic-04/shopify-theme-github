@@ -38,8 +38,7 @@
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-    <!-- Swiper JS -->
-    <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script>
+
 
     
     <!-- <script src="{{ 'clipboard.min.js' | asset_url }}" defer="defer"></script>  -->
@@ -372,16 +371,35 @@
       }
     </script>
 
-    <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    if (document.querySelector('.swiper')) {
-      var script = document.createElement('script');
-      script.src = '{{ "swiper.js" | asset_url }}';
-      script.defer = true;
-      document.body.appendChild(script);
-    }
-  });
-</script>
+<!-- Swiper JS Optimized Loading -->
+{% comment %}
+Homepage: preload + defer
+Product pages: lazy-load only if Swiper exists
+Other pages: Swiper not loaded
+{% endcomment %}
+
+
+    <!-- Swiper JS -->
+    {% comment %} <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script> {% endcomment %}
+
+{% if request.page_type == 'index' %}
+  <!-- Homepage: preload + defer -->
+  <link rel="preload" as="script" href="{{ 'swiper.js' | asset_url }}">
+  <script src="{{ 'swiper.js' | asset_url }}" defer></script>
+
+{% elsif request.page_type == 'product' %}
+  <!-- Product page: lazy-load only if Swiper exists -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (document.querySelector('.swiper')) {
+        const script = document.createElement('script');
+        script.src = "{{ 'swiper.js' | asset_url }}";
+        script.defer = true;
+        document.body.appendChild(script);
+      }
+    });
+  </script>
+{% endif %}
 
 
 {% comment %} speculationrules For speed optimization {% endcomment %}
