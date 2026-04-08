@@ -388,16 +388,27 @@ Other pages: Swiper not loaded
   <script src="{{ 'swiper.js' | asset_url }}" defer></script>
 
 {% elsif request.page_type == 'product' %}
-  <!-- Product page: lazy-load only if Swiper exists -->
+  <!-- Product page: safe lazy load -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      if (document.querySelector('.swiper')) {
+    function loadSwiperAndInit() {
+      if (typeof Swiper === 'undefined') {
         const script = document.createElement('script');
         script.src = "{{ 'swiper.js' | asset_url }}";
         script.defer = true;
+        script.onload = function() {
+          if (typeof swiperInit === 'function') {
+            swiperInit(); // run your initialization after Swiper loads
+          }
+        };
         document.body.appendChild(script);
+      } else {
+        // Swiper already loaded, just run init
+        if (typeof swiperInit === 'function') swiperInit();
       }
-    });
+    }
+
+    // Wait for DOM ready
+    document.addEventListener('DOMContentLoaded', loadSwiperAndInit);
   </script>
 {% endif %}
 
