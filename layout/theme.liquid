@@ -38,8 +38,6 @@
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-    <!-- Swiper JS -->
-    <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script>
 
     
     <!-- <script src="{{ 'clipboard.min.js' | asset_url }}" defer="defer"></script>  -->
@@ -372,12 +370,31 @@
       }
     </script>
 
-    <script>
+        <!-- Swiper JS -->
+    {% comment %} <script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script> {% endcomment %}
+
+
+<!-- SAFER: Conditional Lazy Loading with Init Check -->
+<script>
   document.addEventListener("DOMContentLoaded", function () {
     if (document.querySelector('.swiper')) {
       var script = document.createElement('script');
       script.src = '{{ "swiper.js" | asset_url }}';
       script.defer = true;
+      
+      // Wait for swiper to load before initializing
+      script.onload = function() {
+        console.log('✅ Swiper.js loaded successfully');
+        // Trigger any custom swiper initialization if needed
+        if (window.Shopify && window.Shopify.theme) {
+          console.log('Swiper ready to use');
+        }
+      };
+      
+      script.onerror = function() {
+        console.error('❌ Failed to load swiper.js');
+      };
+      
       document.body.appendChild(script);
     }
   });
