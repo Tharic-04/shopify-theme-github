@@ -198,33 +198,47 @@
   </div>
 </div>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    setTimeout(function () {
-      const swiper = new Swiper('.featuredSwiper-{{ section.id }}', {
-        slidesPerView: {{ section.settings.columns_desktop }},
-        spaceBetween: 20,
-        observer: true,
-        observeParents: true,
-        watchOverflow: true,
-        navigation: {
-          nextEl: '.swiper-button-next-{{ section.id }}',
-          prevEl: '.swiper-button-prev-{{ section.id }}'
-        },
-        breakpoints: {
-          0: {
-            slidesPerView: {{ section.settings.columns_mobile | default: 2 }}
-          },
-          1140: {
-            slidesPerView: {{ section.settings.columns_desktop | default: 3 }}
-          }
-        }
-      });
-      // Ensure update AFTER all images load
-      window.addEventListener('load', function(){
-        swiper.update();
-      });
-    }, 300);
+document.addEventListener('DOMContentLoaded', function () {
+
+  var swiperEl = document.querySelector('.featuredSwiper-{{ section.id }}');
+  if (!swiperEl) return;
+
+  // Prevent duplicate initialization
+  if (swiperEl.classList.contains('swiper-initialized')) return;
+
+  var swiper = new Swiper(swiperEl, {
+    slidesPerView: {{ section.settings.columns_desktop }},
+    spaceBetween: 10,
+    speed: 400, // slightly optimized
+    loop: false,
+    rewind: true,
+
+    autoplay: {
+      delay: 4000, // better for performance
+      disableOnInteraction: true // reduces CPU usage
+    },
+
+    navigation: {
+      nextEl: '.swiper-button-next-{{ section.id }}',
+      prevEl: '.swiper-button-prev-{{ section.id }}'
+    },
+
+    breakpoints: {
+      0: {
+        slidesPerView: {{ section.settings.columns_mobile | default: 2 }}
+      },
+      1140: {
+        slidesPerView: {{ section.settings.columns_desktop | default: 3 }}
+      }
+    }
   });
+
+  // Update after full load (safe)
+  window.addEventListener('load', function () {
+    swiper.update();
+  });
+
+});
 </script>
 
 
