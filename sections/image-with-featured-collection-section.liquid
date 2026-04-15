@@ -153,13 +153,13 @@
         {% if section.settings.media_image != blank %}
            <a href="{{ collections[section.settings.collection].url }}" class="button">
               <img 
-                src="{{ section.settings.media_image | image_url: width: 600 }}"
-                alt="Featured Image" 
-                width="600" 
-                height="600"
-                loading="lazy"
-                decoding="async"
-                fetchpriority="high" {%- if forloop.index > 2 %} fetchpriority="low"{% endif %} />
+            src="{{ section.settings.media_image | image_url: width: 600 }}"
+            alt="Featured Image" 
+            width="600" 
+            height="600" {% if section.index <= 2 -%} loading="eager"
+              fetchpriority="high" {%- else -%} loading="lazy" fetchpriority="low"
+            {%- endif %}
+            decoding="async" />
                </a>
         {% endif %}
       </div>
