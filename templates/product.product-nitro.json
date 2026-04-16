@@ -64,7 +64,6 @@
         },
         "copy_text_Lag9et": {
           "type": "copy_text",
-          "disabled": true,
           "settings": {
             "offer_text": true
           }
