@@ -72,7 +72,6 @@
         },
         "copy_text_QNG4dz": {
           "type": "copy_text",
-          "disabled": true,
           "settings": {
             "offer_text": false
           }
