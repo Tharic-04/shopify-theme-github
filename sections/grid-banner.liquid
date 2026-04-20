@@ -280,42 +280,58 @@
 </div>
 </div>  
 
- <script type="text/javascript">
-document.addEventListener("DOMContentLoaded", function() {
-    var swiperInit = function() {
-        var swiper = new Swiper(".mySwiper-{{ section.id }}", {
-            spaceBetween: 30,
-            loop: true,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-             pagination: {
-                el: '.swiper-pagination-{{ section.id }}',
-                clickable: true
-             },
-            breakpoints: {
-                320: {
-                    slidesPerView: {{ section.settings.mobile_column }},
-                    slidesPerColumn: {{ section.settings.mobile_column }}
-                },
-                576: {
-                    slidesPerView: {{ section.settings.tablet_column }},
-                    slidesPerColumn: {{ section.settings.tablet_column }}
-                },
-                991: {
-                    slidesPerView: {{ section.settings.laptop_column }},
-                    slidesPerColumn: {{ section.settings.laptop_column }}
-                },
-                1540: {
-                    slidesPerView: {{ section.settings.desktop_column }},
-                    slidesPerColumn: {{ section.settings.desktop_column }}
-                },
-            },
-        });
-    };
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
-    swiperInit(); // Call the function to initialize Swiper
+  var swiperEl = document.querySelector('.mySwiper-{{ section.id }}');
+  if (!swiperEl) return;
+
+  // Prevent duplicate initialization
+  if (swiperEl.classList.contains('swiper-initialized')) return;
+
+  var swiper = new Swiper(swiperEl, {
+    spaceBetween: 20,
+    slidesPerView: 1,
+    speed: 400,
+    loop: false,
+    rewind: true,
+
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: true // better performance
+    },
+
+    navigation: {
+      nextEl: '.swiper-button-next-{{ section.id }}',
+      prevEl: '.swiper-button-prev-{{ section.id }}'
+    },
+
+    pagination: {
+      el: '.swiper-pagination-{{ section.id }}',
+      clickable: true
+    },
+
+    breakpoints: {
+      0: {
+        slidesPerView: {{ section.settings.mobile_column | default: 1 }}
+      },
+      576: {
+        slidesPerView: {{ section.settings.tablet_column | default: 2 }}
+      },
+      991: {
+        slidesPerView: {{ section.settings.laptop_column | default: 3 }}
+      },
+      1440: {
+        slidesPerView: {{ section.settings.desktop_column | default: 4 }}
+      }
+    }
+  });
+
+  // Safe update after load
+  window.addEventListener('load', function () {
+    swiper.update();
+  });
+
 });
 </script>
 
