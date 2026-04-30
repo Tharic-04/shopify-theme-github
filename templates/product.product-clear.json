@@ -109,7 +109,7 @@
           "settings": {
             "heading": "Key details",
             "icon": "none",
-            "content": "",
+            "content": "{{ product.metafields.custom.key_details | metafield_tag }}",
             "page": ""
           }
         }
