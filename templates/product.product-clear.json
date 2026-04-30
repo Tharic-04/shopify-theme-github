@@ -103,6 +103,15 @@
             "upload_image": "shopify://shop_images/payment_icon_21b91eb5-e056-4d17-b334-a880014adcb0.png",
             "custom_class_new": "payment_image"
           }
+        },
+        "collapsible_tab_7mmanK": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Key details",
+            "icon": "none",
+            "content": "",
+            "page": ""
+          }
         }
       },
       "block_order": [
@@ -116,7 +125,8 @@
         "essential_upsell_app_block_gWGyNF",
         "essential_upsell_frequently_bought_together_app_block_awwgBp",
         "inventory_new_8mLjRy",
-        "image_picker_bKpwTi"
+        "image_picker_bKpwTi",
+        "collapsible_tab_7mmanK"
       ],
       "settings": {
         "enable_sticky_info": true,
