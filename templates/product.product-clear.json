@@ -106,6 +106,7 @@
         },
         "collapsible_tab_7mmanK": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Key details",
             "icon": "none",
