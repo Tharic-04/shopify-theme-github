@@ -19,7 +19,7 @@
       }
     },
     "main": {
-      "type": "main-product-hydra",
+      "type": "main-product-new",
       "blocks": {
         "title": {
           "type": "title",
